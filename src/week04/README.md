@@ -2,7 +2,7 @@
 
 A simple payroll system with:  
 
-- Cleck (salary + (overtime * rate))
+- Clerk (salary + (overtime * rate))
 - Manager (salary + bonus)
 - Contract Worker (hour * rate)
 
