@@ -21,6 +21,9 @@ public class Project {
     public void loadTasks() {
         DBConnection db = new DBConnection();
         Connection con = db.getConnection();
+
+        // Connection con = DBConnection.getConnection();
+
         if (con != null) {
             String query = "SELECT * FROM tasks WHERE project_id=" + id;
             try {
