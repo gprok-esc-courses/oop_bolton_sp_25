@@ -1,5 +1,8 @@
 package rock_paper_scissors;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Random;
 
 public class Game {
@@ -15,6 +18,10 @@ public class Game {
 
     public void setName(String name) {
         user = new User(name);
+        int id = user.getIdFromDB(name);
+        if (id != -1) {
+            user.setId(id);
+        }
         System.out.println(name + " received by start window");
         // kill the start window and display the game window
         startWindow.dispose();
@@ -65,10 +72,32 @@ public class Game {
         if (computerScore == 10) {
             gameWindow.setStatus("COMPUTER WINS!");
             gameWindow.winnerFound();
+            saveScore();
         }
         else if (user.getScore() == 10) {
             gameWindow.setStatus(user.getName() + " WINS!");
             gameWindow.winnerFound();
+            saveScore();
         }
+    }
+
+    public void saveScore() {
+        Connection conn = DBConnection.getConnection();
+        if (conn != null) {
+            try {
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate("INSERT INTO scores (user_score, computer_score, user_id) " +
+                        "VALUES (" + user.getScore() + ", " + computerScore + ", " + user.getId() +
+                        ")");
+            }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void playAgain() {
+        user.setScore(0);
+        computerScore = 0;
     }
 }

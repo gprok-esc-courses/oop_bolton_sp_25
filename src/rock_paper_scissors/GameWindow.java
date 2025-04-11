@@ -13,6 +13,8 @@ public class GameWindow extends JFrame {
     private JButton paperBtn;
     private JLabel statusLabel;
     private Game game;
+    private JButton topBtn;
+    private JButton playAgainBtn;
 
     public GameWindow(Game game) {
         this.game = game;
@@ -30,6 +32,31 @@ public class GameWindow extends JFrame {
         statusLabel = new JLabel(" ");
         southPanel.add(statusLabel);
         add(southPanel, BorderLayout.SOUTH);
+
+        JPanel westPanel = new JPanel();
+        westPanel.setLayout(new GridLayout(2, 1));
+        topBtn = new JButton("Top Scores");
+        topBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TopWindow topWin = new TopWindow();
+            }
+        });
+        playAgainBtn = new JButton("Play Again");
+        playAgainBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                paperBtn.setEnabled(true);
+                scissorsBtn.setEnabled(true);
+                rockBtn.setEnabled(true);
+                game.playAgain();
+                statusLabel.setText(" ");
+                scoreLabel.setText("Score: User 0 - Computer 0");
+            }
+        });
+        westPanel.add(topBtn);
+        westPanel.add(playAgainBtn);
+        add(westPanel, BorderLayout.WEST);
 
         JPanel centerPanel = new JPanel();
         rockBtn = new JButton("R");
